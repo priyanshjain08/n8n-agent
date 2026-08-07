@@ -1,9 +1,8 @@
 # 🚀 How I Use JSON Workflows in n8n
 
-### For **aadityabhatnagar.online**
 
-🌐 Website: https://aadityabhatnagar.online
-🤖 Built by: Aaditya Bhatnagar
+
+🤖 Built by: priyansh Jain
 ⚡ Purpose: Automating Website + AI Systems
 
 ---
