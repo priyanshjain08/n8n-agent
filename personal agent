@@ -1,0 +1,491 @@
+{
+  "name": "Personal Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1104,
+        -376
+      ],
+      "id": "e81d9e88-3ec2-4584-a2b5-0a33a87998ed",
+      "name": "WhatsApp Trigger",
+      "webhookId": "8b093f51-93b9-4448-8727-3ccda27925ef"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "You are Bobby Punjabi — my personal assistant from Bihar.\n\nYou are originally Punjabi from Bihar, but you speak mostly in clear, natural English. Your tone is warm, confident, and human — never robotic.\n\nYour role is to manage communication and scheduling for me efficiently, like a real assistant who understands intent and takes initiative.\n\nPersonality:\n• Friendly, calm, and dependable\n• Speak mostly in English with Punjabi expressions\n• Slight warmth in tone \n• Professional when handling tasks\n• Casual and friendly in conversation\n• Use emoji and gali when u need \n\nWhen I greet you (hi, hello, etc):\n• Reply in a short, warm, natural way\n• Sound like a real assistant, not a chatbot\n\nWhen sending emails:\n• Write professional but human-sounding emails\n• Be polite, clear, and respectful\n• Do not ask unnecessary follow-up questions if intent is clear\n• Make reasonable assumptions when small details are missing\n• Focus on getting things done efficiently\n• After sending, give a short personal Punjabi-flavored reply \n\nWhen creating calendar events:\n• Create clear titles and useful descriptions\n• Use context to fill missing details intelligently\n• If date is given without year, assume the upcoming relevant date\n• If time is missing, choose a sensible default based on context\n• Do not ask basic clarification questions unless absolutely necessary\n• After creating, give a short personal Punjabi-flavored reply (e.g., \"Changa, event added for you!\")\n\nDecision Making:\n• Act like an executive assistant\n• Take smart decisions when minor information is missing\n• Prioritize action over back-and-forth questioning\n• Only ask questions if the task truly cannot be completed without them\n\nGeneral behavior:\n• Be proactive\n• Be efficient\n• Avoid sounding mechanical\n• Focus on solving and organizing, not just responding\n• After completing tasks, always give a short, friendly, Punjabi-flavored personal confirmation\n\nYour goal is to function like a real personal assistant who understands intent, completes tasks independently, and gives a friendly personal touch after each task."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -440,
+        -480
+      ],
+      "id": "1000f7e8-2ca9-4bc0-b9a8-8e7eb34eabdc",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1000675373128729",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        352,
+        -376
+      ],
+      "id": "dd87d006-2068-4ad9-9045-3f63315c8d07",
+      "name": "Send message",
+      "webhookId": "5aac3c5c-1119-485b-94c1-1c81b0693885"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        -624,
+        -256
+      ],
+      "id": "c349d59e-38da-48d5-aa1d-54134be7c0b8",
+      "name": "Send a message in Gmail",
+      "webhookId": "4c694bce-a0eb-488b-b585-ccdb8c68e547"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_ID', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        -496,
+        -256
+      ],
+      "id": "0ab8a582-5d34-45f8-9a81-4f476796eb92",
+      "name": "Get a message in Gmail",
+      "webhookId": "524e6d9f-6e15-4b8b-a380-b04627f5c412"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "calendar": {
+          "__rl": true,
+          "value": "aadityab660@gmail.com",
+          "mode": "list",
+          "cachedResultName": "aadityab660@gmail.com"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -368,
+        -256
+      ],
+      "id": "8a7443cf-e899-4799-9cba-afdbeeb93385",
+      "name": "Get an event in Google Calendar"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -256
+      ],
+      "id": "5081c6b1-8af0-4e93-9383-924e0d299128",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "aadityab660@gmail.com",
+          "mode": "list",
+          "cachedResultName": "aadityab660@gmail.com"
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -112,
+        -256
+      ],
+      "id": "9f211673-0bb3-42aa-99cd-6b7c8dddd654",
+      "name": "Create an event in Google Calendar"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        -256
+      ],
+      "id": "f1a07307-2472-4b07-b5c9-48837cc78f2c",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {
+          "downloadAttachments": false
+        }
+      },
+      "id": "4d3a9aa9-e600-46b8-a01a-e17b88cbf192",
+      "name": "When New Email Arrives",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1104,
+        -928
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1000675373128729",
+        "recipientPhoneNumber": "917357397888",
+        "textBody": "=You got a mail from {{ $json.headers.from }}\nAsk me if u want me to summarize it!",
+        "additionalFields": {}
+      },
+      "id": "7ba2c0a6-7592-4170-97b6-76ed584dbb11",
+      "name": "Send Email Notification",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        -880,
+        -928
+      ],
+      "webhookId": "28036e36-72f8-4a63-a2fb-d4c657297f32"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1000675373128729",
+        "recipientPhoneNumber": "917357397888",
+        "textBody": "Hey Aaditya,                                                                                                                               I am still active , Ask me to do anything you want!",
+        "additionalFields": {}
+      },
+      "id": "b9ef7411-7218-4629-94b5-7bb2d126ec3c",
+      "name": "Send Scheduled Message",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        -880,
+        -48
+      ],
+      "webhookId": "b00eb871-31f1-4e4a-a1c9-246e858e5e14"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_ID', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        16,
+        -256
+      ],
+      "id": "4196700b-56c8-4a5b-9280-28fbe40a7bbc",
+      "name": "Reply to a message in Gmail",
+      "webhookId": "50501a52-02f5-476d-9cff-c05b8d2205de"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "b43ef4b3-bf42-493c-98cd-0490bd750ecc",
+      "name": "Every 30 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1104,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Trigger').item.json.messages }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -752,
+        -256
+      ],
+      "id": "7ca5e30d-bc0f-452d-a12c-f61c7371615a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1104,
+        -704
+      ],
+      "id": "6f7fd950-c41e-4c18-bf4a-814a882e8951",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "aadityab660@gmail.com",
+        "subject": "ERROR in n8n workflow",
+        "message": "=There is an ERRORR in your n8n workflow \n\nName --> {{ $json.workflow.name }}\nError --> {{ $json.execution.error.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -880,
+        -704
+      ],
+      "id": "4f0cd64f-ac35-4893-95c7-b94167f7f366",
+      "name": "Send a message",
+      "webhookId": "95268431-dc4d-4b39-96a6-3fbde759f3e7"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "recipientPhoneNumber": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Recipient_s_Phone_Number', ``, 'string') }}",
+        "textBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Text_Body', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTool",
+      "typeVersion": 1.1,
+      "position": [
+        144,
+        -256
+      ],
+      "id": "63522866-296e-4fae-9936-5b3f2cddd67d",
+      "name": "Send message in WhatsApp Business Cloud",
+      "webhookId": "6948bdfa-f1b7-457e-b7ce-0266d6e0cbfa",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Personal Agent  \n**Bobby** Can send mail to anyone you know , It can add contact to your phone , It can set event on your google calendar.\nIf you have any doubt  [Clike Me](https://aadityabhatnagar.online/)"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -288,
+        -656
+      ],
+      "typeVersion": 1,
+      "id": "0cbeff4a-082f-4843-ba93-4560bc61c3ec",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When New Email Arrives": {
+      "main": [
+        [
+          {
+            "node": "Send Email Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every 30 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Send Scheduled Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message in WhatsApp Business Cloud": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "availableInMCP": false
+  },
+  "versionId": "b14632d6-9de6-4789-ae86-e9f541e6e532",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6965414295183e978874eb11a34aabf1a7e3e1f22a93a5d371e6a3c90d368db9"
+  },
+  "id": "DhYoP9EWdytvz8ME",
+  "tags": []
+}
