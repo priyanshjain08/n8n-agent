@@ -2,7 +2,7 @@
 
 
 
-🤖 Built by: priyansh Jain
+🤖 Built by: Priyansh Jain
 ⚡ Purpose: Automating Website + AI Systems
 
 ---
